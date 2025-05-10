@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:13
+    container_name: cesizen-postgres
+    environment:
+      POSTGRES_DB: cesizen
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+# Volumes
+volumes:
+  postgres-data:
+    driver: local

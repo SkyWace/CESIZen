@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/axios": "^0.14.4",
+    "@types/node": "^22.15.15"
+  },
+  "dependencies": {
+    "pinia": "^2.3.1"
+  }
+}

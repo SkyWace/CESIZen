@@ -13,6 +13,7 @@ steps:
   displayName: 'Run Maven unit tests'
   inputs:
     mavenPomFile: 'cesizen-simon/backend/pom.xml'
+    goals: 'clean verify'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     codeCoverageToolOption: 'JaCoCo'

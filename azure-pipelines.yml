@@ -9,6 +9,11 @@ trigger:
 pool: Default
 
 steps:
+- script: |
+    whoami
+    id
+    ls -l /var/run/docker.sock
+  displayName: "Check user and Docker socket permissions"
 - task: Maven@4
   displayName: 'Run Maven unit tests'
   inputs:

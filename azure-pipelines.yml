@@ -12,7 +12,7 @@ steps:
 - task: Maven@4
   displayName: 'Run Maven unit tests'
   inputs:
-    mavenPomFile: 'backend/pom.xml'
+    mavenPomFile: 'cesizen-simon/backend/pom.xml'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     codeCoverageToolOption: 'JaCoCo'

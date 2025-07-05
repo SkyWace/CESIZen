@@ -24,3 +24,8 @@ steps:
     sonarQubeRunAnalysis: true
     isJacocoCoverageReportXML: true
     sqMavenPluginVersionChoice: 'latest'
+- task: Docker@2
+  displayName: 'Build and push backend'
+  inputs:
+    command: 'buildAndPush'
+    Dockerfile: 'cesizen-simon/backend/Dockerfile'

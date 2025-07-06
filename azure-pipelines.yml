@@ -33,3 +33,10 @@ steps:
   inputs:
     command: 'buildAndPush'
     Dockerfile: 'cesizen-simon/backend/Dockerfile'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'dev-cesizen-backend-connection'
+    appType: 'webAppLinux'
+    appName: 'dev-cesizen-backend'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    runtimeStack: 'JAVA|17-java17'

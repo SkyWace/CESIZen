@@ -34,7 +34,7 @@ jobs:
           context: .
           push: true
           tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}/dev-cesizen-backend:${{ github.sha }}
-          file: ./Dockerfile
+          file: ./cesizen-simon/backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest

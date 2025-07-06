@@ -38,7 +38,7 @@ steps:
 # Préparer le package ZIP avec le .jar
 - script: |
     mkdir -p deploy
-    cp backend/target/*.jar deploy/
+    cp cesizen-simon/backend/target/*.jar deploy/
     cd deploy
     zip -r ../app-package.zip *
   displayName: 'Préparer package ZIP'

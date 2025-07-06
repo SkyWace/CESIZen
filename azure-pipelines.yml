@@ -52,6 +52,7 @@ steps:
 # Déployer sur Azure App Service
 - task: AzureWebApp@1
   inputs:
+    appType: webAppLinux
     azureSubscription: 'dev-cesizen-backend-connection'
     appName: $(appName)
     package: '$(System.DefaultWorkingDirectory)/app-package.zip'

@@ -9,11 +9,6 @@ trigger:
 pool: Default
 
 steps:
-- script: |
-    whoami
-    id
-    ls -l /var/run/docker.sock
-  displayName: "Check user and Docker socket permissions"
 - task: Maven@4
   displayName: 'Run Maven unit tests'
   inputs:
@@ -31,12 +26,14 @@ steps:
 - task: Docker@2
   displayName: 'Build and push backend'
   inputs:
+    containerRegistry: 'cesizen-container-registry-connection'
     command: 'buildAndPush'
     Dockerfile: 'cesizen-simon/backend/Dockerfile'
-- task: AzureWebApp@1
+    repository: 'bloccesidevregistry.azurecr.io/dev-cesizen-backend:latest'
+    tags: 'latest'
+- task: AzureWebAppContainer@1
+  displayName: 'Deploy development backend'
   inputs:
     azureSubscription: 'dev-cesizen-backend-connection'
-    appType: 'webAppLinux'
     appName: 'dev-cesizen-backend'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    runtimeStack: 'JAVA|17-java17'
+    imageName: '$(dockerImageName)'

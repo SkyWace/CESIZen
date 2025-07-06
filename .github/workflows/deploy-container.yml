@@ -1,0 +1,34 @@
+name: Build & Deploy Container to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ACR_NAME: bloccesidevregistry
+  IMAGE_NAME: dev-cesizen-backend
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v3
+
+    - name: 🐳 Build Docker image
+      run: docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest ./backend
+
+    - name: 🔐 Login to Azure Container Registry
+      run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ env.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+    - name: 🚀 Push image to ACR
+      run: docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+
+    - name: 📦 Deploy to Azure Web App (Docker)
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: dev-cesizen-backend
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest

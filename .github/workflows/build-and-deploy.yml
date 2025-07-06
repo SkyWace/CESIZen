@@ -9,15 +9,14 @@ on:
 jobs:
   build-backend:
     runs-on: ubuntu-latest
-    outputs:
-      backend-image: bloccesidevregistry.azurecr.io/dev-cesizen-backend:${{ github.sha }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to ACR
+      - name: Login to Azure Container Registry
         uses: docker/login-action@v2
         with:
           registry: bloccesidevregistry.azurecr.io/
@@ -25,19 +24,16 @@ jobs:
           password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_B5B5E9FC3AD04C0E8601EBCF44DD0EA8 }}
 
       - name: Build & Push backend image
-        id: build-backend
         uses: docker/build-push-action@v3
         with:
           context: ./cesizen-simon/backend
           push: true
-          tags: ${{ steps.build-backend.outputs.backend-image }}
+          tags: bloccesidevregistry.azurecr.io/dev-cesizen-backend:${{ github.sha }}
           file: ./cesizen-simon/backend/Dockerfile
 
   deploy-backend:
     runs-on: ubuntu-latest
     needs: build-backend
-    outputs:
-      backend-url: ${{ steps.get-url.outputs.backend-url }}
     steps:
       - name: Login to Azure
         uses: azure/login@v2
@@ -46,44 +42,46 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6133A638D4D347C996D583DA15192597 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_614F1FD1169C4DE7992DF4C0325A46BD }}
 
-      - name: Deploy backend container
-        id: deploy-backend
+      - name: Deploy backend container to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'dev-cesizen-backend'
           slot-name: 'Production'
           images: bloccesidevregistry.azurecr.io/dev-cesizen-backend:${{ github.sha }}
 
-      - name: Get Backend URL from Azure CLI
-        id: get-url
+      - name: Get Backend URL
+        id: get-backend-url
         run: |
           url=$(az webapp show --name dev-cesizen-backend --resource-group <TON_RESOURCE_GROUP> --query defaultHostName -o tsv)
-          echo "::set-output name=backend-url::https://$url"
+          echo "BACKEND_URL=https://$url" >> $GITHUB_ENV
 
   build-frontend:
     runs-on: ubuntu-latest
     needs: deploy-backend
+    env:
+      VITE_API_URL: ${{ env.BACKEND_URL }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to ACR
+      - name: Login to Azure Container Registry
         uses: docker/login-action@v2
         with:
           registry: bloccesidevregistry.azurecr.io/
           username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F3B63416A27F4DC3BAD62F9B29947977 }}
           password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_0353F16E91464A518395F26E5C3C371B }}
 
-      - name: Build & Push frontend image with VITE_API_URL
+      - name: Build & Push frontend image with VITE_API_URL build-arg
         uses: docker/build-push-action@v3
         with:
           context: ./cesizen-simon/backend/frontend/cesizen
           push: true
           tags: bloccesidevregistry.azurecr.io/dev-cesizen-frontend:${{ github.sha }}
           file: ./cesizen-simon/backend/frontend/cesizen/Dockerfile
-          build-args: VITE_API_URL=${{ needs.deploy-backend.outputs.backend-url }}
+          build-args: VITE_API_URL=${{ env.VITE_API_URL }}
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -96,7 +94,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4D4A948EAD374C9C892DB594C558D775 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DED4612A3B8C4EA0B3F7C0D7C1121D9F }}
 
-      - name: Deploy frontend container
+      - name: Deploy frontend container to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'dev-cesizen-frontend'

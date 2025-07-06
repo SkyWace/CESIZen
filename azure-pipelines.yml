@@ -8,6 +8,10 @@ trigger:
 
 pool: Default
 
+variables:
+  appName: 'dev-cesizen-backend'
+  resourceGroup: 'cesi-bloc'
+
 steps:
 - task: Maven@4
   displayName: 'Run Maven unit tests'
@@ -23,17 +27,52 @@ steps:
     effectivePomSkip: false
     isJacocoCoverageReportXML: true
     sqMavenPluginVersionChoice: 'latest'
-- task: Docker@2
-  displayName: 'Build and push backend'
+# Installer Maven (si nécessaire)
+- task: Maven@3
+  displayName: 'Build backend Java'
   inputs:
-    containerRegistry: 'cesizen-container-registry-connection'
-    command: 'buildAndPush'
-    Dockerfile: 'cesizen-simon/backend/Dockerfile'
-    repository: 'bloccesidevregistry.azurecr.io/dev-cesizen-backend'
-    tags: 'latest'
-- task: AzureWebAppContainer@1
-  displayName: 'Deploy development backend'
+    mavenPomFile: 'backend/pom.xml'
+    goals: 'clean package'
+
+# Installer Node.js pour frontend
+- task: NodeTool@0
+  displayName: 'Installer Node.js'
+  inputs:
+    versionSpec: '16.x'
+
+# Build frontend
+- script: |
+    cd backend/frontend
+    npm install
+    npm run build
+  displayName: 'Build frontend'
+
+# Build backoffice
+- script: |
+    cd backend/backoffice
+    npm install
+    npm run build
+  displayName: 'Build backoffice'
+
+# Préparer le dossier deploy et zipper
+- script: |
+    mkdir -p deploy
+    cp backend/target/*.jar deploy/ # adapte l'extension si c'est .war
+    cp -r backend/frontend/build deploy/frontend-build
+    cp -r backend/backoffice/build deploy/backoffice-build
+    cd deploy
+    zip -r ../app-package.zip *
+  displayName: 'Préparer et zipper le package'
+
+# Publier l'artifact pour debug (optionnel)
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'app-package.zip'
+    ArtifactName: 'drop'
+
+# Déployer sur Azure App Service
+- task: AzureWebApp@1
   inputs:
     azureSubscription: 'dev-cesizen-backend-connection'
-    appName: 'dev-cesizen-backend'
-    imageName: 'bloccesidevregistry.azurecr.io/dev-cesizen-backend:latest'
+    appName: $(appName)
+    package: '$(System.DefaultWorkingDirectory)/app-package.zip'

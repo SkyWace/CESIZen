@@ -33,7 +33,7 @@ jobs:
         with:
           context: ./cesizen-simon/backend/frontend/cesizen
           push: true
-          tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_23D84E9D4EFF461D92F9BD009D02197F }}/dev-cesizen-frontend:${{ github.sha }}
+          tags: bloccesidevregistry.azurecr.io/dev-cesizen-frontend:${{ github.sha }}
           file: ./cesizen-simon/backend/frontend/cesizen/Dockerfile
 
   deploy:
@@ -60,5 +60,5 @@ jobs:
         with:
           app-name: 'dev-cesizen-frontend'
           slot-name: 'Production'
-          images: 'bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_23D84E9D4EFF461D92F9BD009D02197F }}/dev-cesizen-frontend:${{ github.sha }}'
+          images: 'bloccesidevregistry.azurecr.io/dev-cesizen-frontend:${{ github.sha }}'
           

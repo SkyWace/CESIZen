@@ -36,4 +36,4 @@ steps:
   inputs:
     azureSubscription: 'dev-cesizen-backend-connection'
     appName: 'dev-cesizen-backend'
-    imageName: '$(dockerImageName)'
+    imageName: 'bloccesidevregistry.azurecr.io/dev-cesizen-backend:latest'

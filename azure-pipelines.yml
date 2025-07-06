@@ -27,6 +27,7 @@ steps:
     effectivePomSkip: false
     isJacocoCoverageReportXML: true
     sqMavenPluginVersionChoice: 'latest'
+
 # Installer Maven (si nécessaire)
 - task: Maven@4
   displayName: 'Build backend Java'
@@ -34,37 +35,15 @@ steps:
     mavenPomFile: 'cesizen-simon/backend/pom.xml'
     goals: 'clean package -DskipTests'
 
-# Installer Node.js pour frontend
-- task: NodeTool@0
-  displayName: 'Installer Node.js'
-  inputs:
-    versionSpec: '16.x'
-
-# Build frontend
-- script: |
-    cd cesizen-simon/backend/frontend
-    npm install
-    npm run build
-  displayName: 'Build frontend'
-
-# Build backoffice
-- script: |
-    cd cesizen-simon/backend/backoffice
-    npm install
-    npm run build
-  displayName: 'Build backoffice'
-
-# Préparer le dossier deploy et zipper
+# Préparer le package ZIP avec le .jar
 - script: |
     mkdir -p deploy
-    cp cesizen-simon/backend/target/*.jar deploy/ # adapte l'extension si c'est .war
-    cp -r cesizen-simon/backend/frontend/build deploy/frontend-build
-    cp -r cesizen-simon/backend/backoffice/build deploy/backoffice-build
+    cp backend/target/*.jar deploy/
     cd deploy
     zip -r ../app-package.zip *
-  displayName: 'Préparer et zipper le package'
+  displayName: 'Préparer package ZIP'
 
-# Publier l'artifact pour debug (optionnel)
+# Publier l'artefact (optionnel, utile pour debug)
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'app-package.zip'

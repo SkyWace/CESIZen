@@ -31,7 +31,7 @@ jobs:
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./cesizen-simon/backend
           push: true
           tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}/dev-cesizen-backend:${{ github.sha }}
           file: ./cesizen-simon/backend/Dockerfile

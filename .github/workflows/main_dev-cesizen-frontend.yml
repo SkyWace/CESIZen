@@ -31,10 +31,10 @@ jobs:
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./cesizen-simon/backend/frontend/cesizen
           push: true
           tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F3B63416A27F4DC3BAD62F9B29947977 }}/dev-cesizen-frontend:${{ github.sha }}
-          file: ./Dockerfile
+          file: ./cesizen-simon/backend/frontend/cesizen/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest

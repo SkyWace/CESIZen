@@ -38,7 +38,7 @@
             @mouseleave="hover = null"
           >
             <v-img
-              :src="`http://localhost:8080${article.imageUrl}`"
+              :src="`${import.meta.env.VITE_API_URL}${article.imageUrl}`"
               height="200"
               cover
               class="align-end"

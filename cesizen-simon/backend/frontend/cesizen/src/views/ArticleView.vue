@@ -50,7 +50,7 @@
 
               <v-img
                 v-if="article?.imageUrl"
-                :src="`http://localhost:8080${article.imageUrl}`"
+              :src="`${import.meta.env.VITE_API_URL}${article.imageUrl}`"
                 height="400"
                 cover
                 class="rounded-lg mb-6"

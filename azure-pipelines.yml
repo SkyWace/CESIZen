@@ -29,7 +29,7 @@ steps:
     containerRegistry: 'cesizen-container-registry-connection'
     command: 'buildAndPush'
     Dockerfile: 'cesizen-simon/backend/Dockerfile'
-    repository: 'bloccesidevregistry.azurecr.io/dev-cesizen-backend:latest'
+    repository: 'dev-cesizen-backend'
     tags: 'latest'
 - task: AzureWebAppContainer@1
   displayName: 'Deploy development backend'

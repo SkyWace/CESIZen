@@ -162,7 +162,7 @@
           @mouseleave="hover = null"
         >
           <v-img
-            :src="`${import.meta.env.VITE_API_URL}${article.imageUrl}`"
+            :src="`${apiUrl}${article.imageUrl}`"
             height="200"
             cover
             class="align-end"
@@ -229,6 +229,9 @@ const hover = ref<string | number | null>(null)
 const articles = ref<Article[]>([])
 const loading = ref(true)
 const error = ref('')
+
+const apiUrl = import.meta.env.VITE_API_URL
+
 
 const features = [
   {

@@ -38,7 +38,7 @@
             @mouseleave="hover = null"
           >
             <v-img
-              :src="`${import.meta.env.VITE_API_URL}${article.imageUrl}`"
+              :src="`${apiUrl}${article.imageUrl}`"
               height="200"
               cover
               class="align-end"
@@ -116,6 +116,8 @@ const error = ref<string | null>(null)
 const currentPage = ref(0)
 const totalPages = ref(0)
 const itemsPerPage = 10
+
+const apiUrl = import.meta.env.VITE_API_URL
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)

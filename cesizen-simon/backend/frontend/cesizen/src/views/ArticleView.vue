@@ -50,7 +50,7 @@
 
               <v-img
                 v-if="article?.imageUrl"
-              :src="`${import.meta.env.VITE_API_URL}${article.imageUrl}`"
+              :src="`${apiUrl}${article.imageUrl}`"
                 height="400"
                 cover
                 class="rounded-lg mb-6"
@@ -76,6 +76,9 @@ const route = useRoute()
 const article = ref<Article | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+
+const apiUrl = import.meta.env.VITE_API_URL
+
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return ''

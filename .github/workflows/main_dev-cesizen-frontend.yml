@@ -25,15 +25,15 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: bloccesidevregistry.azurecr.io/
-          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F3B63416A27F4DC3BAD62F9B29947977 }}
-          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_0353F16E91464A518395F26E5C3C371B }}
+          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}
+          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_B5B5E9FC3AD04C0E8601EBCF44DD0EA8 }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
         with:
           context: ./cesizen-simon/backend/frontend/cesizen
           push: true
-          tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F3B63416A27F4DC3BAD62F9B29947977 }}/dev-cesizen-frontend:${{ github.sha }}
+          tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}/dev-cesizen-frontend:${{ github.sha }}
           file: ./cesizen-simon/backend/frontend/cesizen/Dockerfile
 
   deploy:
@@ -50,9 +50,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_646E6220D63947A5B6F623A15F6940FA }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4D4A948EAD374C9C892DB594C558D775 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DED4612A3B8C4EA0B3F7C0D7C1121D9F }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3B98C87C048D4EA3B090DDC9130DC903 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6133A638D4D347C996D583DA15192597 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_614F1FD1169C4DE7992DF4C0325A46BD }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -60,5 +60,5 @@ jobs:
         with:
           app-name: 'dev-cesizen-frontend'
           slot-name: 'Production'
-          images: 'bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F3B63416A27F4DC3BAD62F9B29947977 }}/dev-cesizen-frontend:${{ github.sha }}'
+          images: 'bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}/dev-cesizen-frontend:${{ github.sha }}'
           

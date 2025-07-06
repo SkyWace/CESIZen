@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = {"http://localhost:8100", "http://localhost:8101", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"}, maxAge = 3600)
 @RequiredArgsConstructor
 @Tag(name = "Breathing Exercises", description = "Breathing exercises management APIs")
+@RateLimiter(name = "backendA")
 public class BreathingExerciseController {
     private static final Logger logger = LoggerFactory.getLogger(BreathingExerciseController.class);
 

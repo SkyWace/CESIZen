@@ -27,6 +27,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 @CrossOrigin(origins = {"http://localhost:8100", "http://localhost:8101", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"}, maxAge = 3600)
 @Tag(name = "User Management", description = "User management APIs")
+@RateLimiter(name = "backendA")
 public class UserController {
 
     private final UserService userService;

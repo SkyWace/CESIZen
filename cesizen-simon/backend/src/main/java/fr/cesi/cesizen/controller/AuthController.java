@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = {"http://localhost:8100", "http://localhost:8101", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"}, maxAge = 3600)
 @Tag(name = "Authentication", description = "Authentication management APIs")
+@RateLimiter(name = "backendA")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 

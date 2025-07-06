@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/breathing-history")
 @Tag(name = "Breathing Exercise History", description = "Historique des exercices de respiration")
+@RateLimiter(name = "backendA")
 public class BreathingExerciseHistoryController {
     private final BreathingExerciseHistoryService historyService;
     private final UserService userService;

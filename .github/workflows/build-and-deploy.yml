@@ -9,21 +9,23 @@ on:
 jobs:
   build-backend:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write    # Important pour azure/login
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to Azure Container Registry
+      - name: Log in to container registry
         uses: docker/login-action@v2
         with:
           registry: bloccesidevregistry.azurecr.io/
           username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}
           password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_B5B5E9FC3AD04C0E8601EBCF44DD0EA8 }}
 
-      - name: Build & Push backend image
+      - name: Build and push backend container image
         uses: docker/build-push-action@v3
         with:
           context: ./cesizen-simon/backend
@@ -34,6 +36,9 @@ jobs:
   deploy-backend:
     runs-on: ubuntu-latest
     needs: build-backend
+    permissions:
+      contents: read
+      id-token: write
     outputs:
       BACKEND_URL: ${{ steps.get-backend-url.outputs.backend_url }}
     steps:
@@ -60,23 +65,25 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     needs: deploy-backend
+    permissions:
+      contents: read
+      id-token: write
     env:
       VITE_API_URL: ${{ needs.deploy-backend.outputs.BACKEND_URL }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to Azure Container Registry
+      - name: Log in to container registry
         uses: docker/login-action@v2
         with:
           registry: bloccesidevregistry.azurecr.io/
           username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_F3B63416A27F4DC3BAD62F9B29947977 }}
           password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_0353F16E91464A518395F26E5C3C371B }}
 
-      - name: Build & Push frontend image with VITE_API_URL build-arg
+      - name: Build and push frontend container image with VITE_API_URL
         uses: docker/build-push-action@v3
         with:
           context: ./cesizen-simon/backend/frontend/cesizen
@@ -88,6 +95,9 @@ jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
     needs: build-frontend
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Login to Azure
         uses: azure/login@v2

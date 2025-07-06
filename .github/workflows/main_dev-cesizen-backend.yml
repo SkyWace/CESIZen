@@ -1,0 +1,64 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - dev-cesizen-backend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to container registry
+        uses: docker/login-action@v2
+        with:
+          registry: bloccesidevregistry.azurecr.io/
+          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}
+          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_B5B5E9FC3AD04C0E8601EBCF44DD0EA8 }}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}/dev-cesizen-backend:${{ github.sha }}
+          file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    needs: build
+    
+
+    steps:
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3B98C87C048D4EA3B090DDC9130DC903 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6133A638D4D347C996D583DA15192597 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_614F1FD1169C4DE7992DF4C0325A46BD }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'dev-cesizen-backend'
+          slot-name: 'Production'
+          images: 'bloccesidevregistry.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8C0C14B1A7204FE2B545DEF338A2848C }}/dev-cesizen-backend:${{ github.sha }}'
+          

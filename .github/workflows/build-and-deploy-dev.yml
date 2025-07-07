@@ -143,6 +143,7 @@ jobs:
           push: true
           tags: bloccesidevregistry.azurecr.io/dev-cesizen-backoffice:${{ github.sha }}
           file: ./cesizen-simon/backend/backoffice/Dockerfile
+          build-args: VITE_API_URL=${{ env.VITE_API_URL }}/api
 
   deploy-backoffice:
     runs-on: ubuntu-latest

@@ -126,7 +126,6 @@
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useArticleStore } from '../stores/articleStore';
-import { useAuthStore } from '../stores/auth';
 
 type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 

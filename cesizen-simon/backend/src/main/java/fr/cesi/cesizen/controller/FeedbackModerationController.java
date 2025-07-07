@@ -1,5 +1,6 @@
 package fr.cesi.cesizen.controller;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import fr.cesi.cesizen.dto.ExerciseFeedbackDto;
 import fr.cesi.cesizen.service.ExerciseFeedbackService;
 import org.springframework.http.ResponseEntity;

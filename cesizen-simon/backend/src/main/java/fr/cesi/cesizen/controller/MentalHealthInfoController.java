@@ -1,5 +1,6 @@
 package fr.cesi.cesizen.controller;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import fr.cesi.cesizen.model.MentalHealthInfo;
 import fr.cesi.cesizen.model.MentalHealthInfo.Category;
 import fr.cesi.cesizen.service.MentalHealthInfoService;

@@ -1,5 +1,6 @@
 package fr.cesi.cesizen.controller;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import fr.cesi.cesizen.model.BreathingExercise;
 import fr.cesi.cesizen.model.User;
 import fr.cesi.cesizen.repository.BreathingExerciseRepository;

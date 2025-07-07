@@ -197,10 +197,11 @@ const recentActivities = ref<Activity[]>([
 ])
 
 const fetchData = async () => {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
   try {
     loading.value = true
     // Fetch users
-    const usersResponse = await axios.get<User[]>('http://localhost:8080/api/users', {
+    const usersResponse = await axios.get<User[]>(apiUrl+'/users', {
       headers: {
         Authorization: `Bearer ${authStore.token}`
       }
@@ -208,7 +209,7 @@ const fetchData = async () => {
     users.value = usersResponse.data
 
     // Fetch total exercises
-    const exercisesResponse = await axios.get('http://localhost:8080/api/breathing-exercises/count', {
+    const exercisesResponse = await axios.get(apiUrl+'/breathing-exercises/count', {
       headers: {
         Authorization: `Bearer ${authStore.token}`
       }
@@ -224,8 +225,9 @@ const fetchData = async () => {
 async function fetchFeedbacks() {
   loadingFeedbacks.value = true;
   errorFeedbacks.value = '';
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
   try {
-    const response = await axios.get('http://localhost:8080/api/feedback', {
+    const response = await axios.get(apiUrl+'/feedback', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     feedbacks.value = response.data;
@@ -238,8 +240,9 @@ async function fetchFeedbacks() {
 
 async function deleteFeedback(feedback: Feedback) {
   if (!confirm('Supprimer cet avis ?')) return;
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
   try {
-    await axios.delete(`http://localhost:8080/api/exercises/${feedback.exerciseId}/feedback/${feedback.id}`, {
+    await axios.delete(`${apiUrl}/exercises/${feedback.exerciseId}/feedback/${feedback.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     await fetchFeedbacks();

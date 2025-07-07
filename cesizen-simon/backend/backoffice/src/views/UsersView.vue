@@ -106,7 +106,8 @@ const showSnackbar = (text: string, color: string = 'success') => {
 const fetchUsers = async () => {
   try {
     loading.value = true
-    const response = await axios.get<User[]>('http://localhost:8080/api/users', {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    const response = await axios.get<User[]>(apiUrl+'/users', {
       headers: {
         Authorization: `Bearer ${authStore.token}`
       }
@@ -138,7 +139,8 @@ const deleteItem = async (item: User) => {
 
   if (confirm('Are you sure you want to delete this user?')) {
     try {
-      await axios.delete(`http://localhost:8080/api/users/${item.id}`, {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+      await axios.delete(`${apiUrl}/users/${item.id}`, {
         headers: {
           Authorization: `Bearer ${authStore.token}`
         }
@@ -154,8 +156,9 @@ const deleteItem = async (item: User) => {
 
 const saveItem = async (updatedItem: User) => {
   try {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
     const response = await axios.put<User>(
-      `http://localhost:8080/api/users/${updatedItem.id}`,
+      `${apiUrl}/users/${updatedItem.id}`,
       updatedItem,
       {
         headers: {

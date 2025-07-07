@@ -190,7 +190,8 @@ const fetchExercises = async () => {
       return
     }
 
-    const response = await axios.get<BreathingExercise[]>('http://localhost:8080/api/exercises', {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    const response = await axios.get<BreathingExercise[]>(apiUrl+'/exercises', {
       headers: {
         Authorization: `Bearer ${authStore.token}`
       }
@@ -228,6 +229,7 @@ const close = () => {
 }
 
 const save = async () => {
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
   if (!form.value.validate()) return
   if (!authStore.token) {
     showSnackbar('Authentication required', 'error')
@@ -238,7 +240,7 @@ const save = async () => {
     if (editedIndex.value > -1 && editedItem.value.idExercice) {
       // Update existing exercise
       await axios.put(
-        `http://localhost:8080/api/exercises/${editedItem.value.idExercice}`,
+        `${apiUrl}/exercises/${editedItem.value.idExercice}`,
         editedItem.value,
         {
           headers: {
@@ -250,7 +252,7 @@ const save = async () => {
     } else {
       // Create new exercise
       await axios.post(
-        'http://localhost:8080/api/exercises/official',
+        apiUrl+'/exercises/official',
         editedItem.value,
         {
           headers: {
@@ -279,10 +281,11 @@ const deleteItem = async (item: BreathingExercise) => {
     showSnackbar('Authentication required', 'error')
     return
   }
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
   if (confirm('Are you sure you want to delete this exercise?')) {
     try {
-      await axios.delete(`http://localhost:8080/api/exercises/${item.idExercice}`, {
+      await axios.delete(`${apiUrl}/exercises/${item.idExercice}`, {
         headers: {
           Authorization: `Bearer ${authStore.token}`
         }

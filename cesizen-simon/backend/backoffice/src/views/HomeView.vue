@@ -238,14 +238,15 @@ const currentDate = computed(() => {
 const fetchData = async () => {
   try {
     loading.value = true
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
     const [usersResponse, articlesResponse, exercisesResponse] = await Promise.all([
-      axios.get('http://localhost:8080/api/users', {
+      axios.get(apiUrl+'/users', {
         headers: { Authorization: `Bearer ${authStore.token}` }
       }),
-      axios.get('http://localhost:8080/api/articles', {
+      axios.get(apiUrl+'/articles', {
         headers: { Authorization: `Bearer ${authStore.token}` }
       }),
-      axios.get('http://localhost:8080/api/breathing-exercises', {
+      axios.get(apiUrl+'/breathing-exercises', {
         headers: { Authorization: `Bearer ${authStore.token}` }
       })
     ])

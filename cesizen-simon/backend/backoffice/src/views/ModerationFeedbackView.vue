@@ -73,7 +73,8 @@ async function fetchFeedbacks() {
   loadingFeedbacks.value = true;
   errorFeedbacks.value = '';
   try {
-    const response = await axios.get('http://localhost:8080/api/feedback', {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    const response = await axios.get(apiUrl+'/feedback', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     console.log('Feedback data from API:', response.data);
@@ -94,7 +95,8 @@ async function fetchFeedbacks() {
 async function deleteFeedback(feedback: Feedback) {
   if (!confirm('Supprimer cet avis ?')) return;
   try {
-    await axios.delete(`http://localhost:8080/api/exercises/${feedback.exerciseId}/feedback/${feedback.id}`, {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    await axios.delete(`${apiUrl}/exercises/${feedback.exerciseId}/feedback/${feedback.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     await fetchFeedbacks();
@@ -111,7 +113,8 @@ async function openExerciseModal(exerciseId: number) {
   showExerciseModal.value = true;
   exerciseDetails.value = null;
   try {
-    const response = await axios.get(`http://localhost:8080/api/exercises/${exerciseId}`);
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    const response = await axios.get(apiUrl+`/exercises/${exerciseId}`);
     exerciseDetails.value = response.data;
   } catch (e) {
     alert('Erreur lors du chargement des détails de l\'exercice');

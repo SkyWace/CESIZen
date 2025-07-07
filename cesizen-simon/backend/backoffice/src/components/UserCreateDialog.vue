@@ -135,7 +135,8 @@ const save = async () => {
   if (!form.value.validate()) return
 
   try {
-    const response = await axios.post('http://localhost:8080/api/users', editedItem, {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    const response = await axios.post(apiUrl+'/users', editedItem, {
       headers: {
         Authorization: `Bearer ${authStore.token}`
       }

@@ -79,7 +79,8 @@ const chartOptions = {
 
 const fetchSubscriptionData = async () => {
   try {
-    const response = await axios.get<SubscriptionData[]>('http://localhost:8080/api/users/subscriptions/timeline', {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+    const response = await axios.get<SubscriptionData[]>(apiUrl+'/users/subscriptions/timeline', {
       headers: {
         Authorization: `Bearer ${authStore.token}`
       }

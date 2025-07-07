@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth', {
         })
 
         // Extract data from response
-        const { accessToken, id, username, email: userEmail, firstName, lastName, roles } = response.data
+        const { accessToken, id, email: userEmail, firstName, lastName, roles } = response.data
 
         // Create user object from response data
         const user = {

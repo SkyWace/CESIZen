@@ -41,7 +41,7 @@
 
     <UserEditDialog
       v-model="dialog"
-      :edited-item="editedItem"
+      :edited-item="editedItem ?? {}"
       @save="saveItem"
       @close="close"
     />

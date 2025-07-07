@@ -46,7 +46,7 @@
           class="mb-4"
         >
           <template v-slot:selection="{ fileNames }">
-            <template v-for="(fileName, index) in fileNames" :key="index">
+            <template v-for="(fileName) in fileNames" :key="fileName">
               <v-chip
                 size="small"
                 label

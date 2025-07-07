@@ -122,7 +122,8 @@ jobs:
     needs: deploy-backend
     permissions:
       contents: read #This is required for actions/checkout
-
+    env:
+      VITE_API_URL: ${{ needs.deploy-backend.outputs.BACKEND_URL }}
     steps:
       - uses: actions/checkout@v4
 

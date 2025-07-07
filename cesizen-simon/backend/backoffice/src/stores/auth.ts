@@ -118,7 +118,7 @@ export const useAuthStore = defineStore('auth', {
           email: userData.email,
           firstName: userData.firstName,
           lastName: userData.lastName,
-          roles: Array.from(userData.roles)
+          roles: Array.from(userData.roles) as string[]
         }
 
         this.user = user

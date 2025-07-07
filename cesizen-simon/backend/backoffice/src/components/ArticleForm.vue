@@ -156,14 +156,6 @@ const showSnackbar = ref(false);
 const snackbarText = ref('');
 const snackbarColor = ref('success');
 
-const isSuperAdmin = computed(() => authStore.isSuperAdmin);
-
-const statusOptions = [
-  { title: 'Pending', value: 'PENDING' as ApprovalStatus },
-  { title: 'Approved', value: 'APPROVED' as ApprovalStatus },
-  { title: 'Rejected', value: 'REJECTED' as ApprovalStatus }
-];
-
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 const form = reactive<Article>({

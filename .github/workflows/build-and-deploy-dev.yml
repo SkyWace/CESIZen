@@ -94,7 +94,7 @@ jobs:
           push: true
           tags: bloccesidevregistry.azurecr.io/dev-cesizen-frontend:${{ github.sha }}
           file: ./cesizen-simon/backend/frontend/cesizen/Dockerfile
-          build-args: VITE_API_URL=${{ env.VITE_API_URL }}
+          build-args: VITE_API_URL=${{ env.VITE_API_URL }}/api
 
   deploy-frontend:
     runs-on: ubuntu-latest

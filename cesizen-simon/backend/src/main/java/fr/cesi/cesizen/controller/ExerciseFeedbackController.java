@@ -17,7 +17,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exercises/{exerciseId}/feedback")
-@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:8101", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"}, maxAge = 3600)
 @RateLimiter(name = "backendA")
 public class ExerciseFeedbackController {
     private final ExerciseFeedbackService feedbackService;

@@ -35,6 +35,7 @@ jobs:
           push: true
           tags: bloccesidevregistry.azurecr.io/dev-cesizen-backend:${{ github.sha }}
           file: ./cesizen-simon/backend/Dockerfile
+          build-args: CORS_URLS=https://dev-cesizen-frontend-bqckg7b5d5fpb7fv.francecentral-01.azurewebsites.net
 
   deploy-backend:
     runs-on: ubuntu-latest

@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/mental-health")
-@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:8101", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"}, maxAge = 3600)
 @Tag(name = "Mental Health Information", description = "Mental health information management APIs")
 @RateLimiter(name = "backendA")
 public class MentalHealthInfoController {

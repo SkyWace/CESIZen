@@ -9,6 +9,9 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
+ARG CORS_URLS
+ENV CORS_URLS=${CORS_URLS}
+
 # Stage 2: Run the application
 FROM eclipse-temurin:17-jdk
 

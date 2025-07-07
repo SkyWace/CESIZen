@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/feedback")
-@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:8101", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"}, maxAge = 3600)
 @RateLimiter(name = "backendA")
 public class FeedbackModerationController {
     private final ExerciseFeedbackService feedbackService;

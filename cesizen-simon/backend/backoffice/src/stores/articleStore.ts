@@ -28,8 +28,8 @@ export const useArticleStore = defineStore('article', {
       this.loading = true;
       this.error = null;
       try {
-        console.log('Fetching articles from:', `${API_URL}/api/articles`);
-        const response = await axios.get(`${API_URL}/api/articles`);
+        console.log('Fetching articles from:', `${API_URL}/articles`);
+        const response = await axios.get(`${API_URL}/articles`);
         console.log('Articles response:', response.data);
         this.articles = response.data.content;
       } catch (err: any) {
@@ -45,7 +45,7 @@ export const useArticleStore = defineStore('article', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axios.get(`${API_URL}/api/articles/pending`);
+        const response = await axios.get(`${API_URL}/articles/pending`);
         this.pendingArticles = response.data;
       } catch (err: any) {
         console.error('Error fetching pending articles:', err);
@@ -60,7 +60,7 @@ export const useArticleStore = defineStore('article', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axios.get(`${API_URL}/api/articles/${id}`);
+        const response = await axios.get(`${API_URL}/articles/${id}`);
         this.currentArticle = response.data;
         return response.data;
       } catch (err: any) {
@@ -84,7 +84,7 @@ export const useArticleStore = defineStore('article', {
           formData.append('image', image);
         }
 
-        const response = await axios.post(`${API_URL}/api/articles`, formData, {
+        const response = await axios.post(`${API_URL}/articles`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -104,7 +104,7 @@ export const useArticleStore = defineStore('article', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axios.post(`${API_URL}/api/articles/${id}/approve`);
+        const response = await axios.post(`${API_URL}/articles/${id}/approve`);
         const index = this.articles.findIndex(a => a.id === id);
         if (index !== -1) {
           this.articles[index] = response.data;
@@ -124,7 +124,7 @@ export const useArticleStore = defineStore('article', {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axios.post(`${API_URL}/api/articles/${id}/reject`);
+        const response = await axios.post(`${API_URL}/articles/${id}/reject`);
         const index = this.articles.findIndex(a => a.id === id);
         if (index !== -1) {
           this.articles[index] = response.data;
@@ -152,7 +152,7 @@ export const useArticleStore = defineStore('article', {
           formData.append('image', image);
         }
 
-        const response = await axios.put(`${API_URL}/api/articles/${id}`, formData, {
+        const response = await axios.put(`${API_URL}/articles/${id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -175,7 +175,7 @@ export const useArticleStore = defineStore('article', {
       this.loading = true;
       this.error = null;
       try {
-        await axios.delete(`${API_URL}/api/articles/${id}`);
+        await axios.delete(`${API_URL}/articles/${id}`);
         this.articles = this.articles.filter(a => a.id !== id);
         this.pendingArticles = this.pendingArticles.filter(a => a.id !== id);
       } catch (err: any) {

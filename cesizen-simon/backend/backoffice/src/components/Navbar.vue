@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { VNavigationDrawer, VList, VListItem, VListItemTitle, VIcon } from 'vuetify/components'
+import { VNavigationDrawer, VList, VListItem, VIcon } from 'vuetify/components'
 
 const menuItems = ref([
   { 

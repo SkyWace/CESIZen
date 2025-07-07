@@ -123,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useArticleStore } from '../stores/articleStore';
 import { useAuthStore } from '../stores/auth';
@@ -147,7 +147,6 @@ const props = defineProps<{
 
 const router = useRouter();
 const articleStore = useArticleStore();
-const authStore = useAuthStore();
 const loading = ref(false);
 const selectedImage = ref<File | null>(null);
 const previewUrl = ref<string | null>(null);

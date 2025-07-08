@@ -88,6 +88,9 @@
               >
                 {{ error }}
               </v-alert>
+<v-text class="text-caption mb-2" color="grey">
+  En créant un compte, vous acceptez que vos données soient utilisées conformément à notre politique de confidentialité.
+</v-text>
 
               <v-btn
                 type="submit"
@@ -110,7 +113,7 @@
               color="primary"
               class="text-none"
             >
-            (En faissant cela vous autorisez à ce que nous utilisions vos données dans les regless RGPD)
+
               Déjà un compte ? Se connecter
             </v-btn>
           </v-card-actions>

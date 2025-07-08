@@ -98,7 +98,7 @@
                 :disabled="!valid || loading"
                 class="mt-4"
               >
-                Créer mon compte
+                Créer mon compte (En faissant cela vous autorisez à ce que nous utilisions vos données dans les regless RGPD)
               </v-btn>
             </v-form>
           </v-card-text>
